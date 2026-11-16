@@ -39,7 +39,7 @@ Updating: upload changed files again (or `git push`), and Pages redeploys automa
 index.html              page markup + inline SVG icon sprite
 css/styles.css          all styles, tokens, breakpoints, motion
 js/main.js              tabs, specialty content, scroll effects, preview widget
-assets/img/             hero + specialty header backgrounds (Figma renders), logos (SVG)
+assets/img/             hero + 10 specialty header backgrounds (Figma renders), logos (SVG)
 assets/icons/           specialty / badge icons exported from Figma (SVG)
 robots.txt, .nojekyll   keep the preview out of search; serve files as-is on Pages
 ```
@@ -86,7 +86,8 @@ fonts if that matters for compliance.
 - **All copy is placeholder.** Content for the 9 non-OB specialties was written for this
   preview; Figma only has the Gynaecology & Obstetrics content. **All statistics are illustrative**.
   Confirm or replace them before any public launch.
-- Every specialty reuses the ultrasound header image; Figma has no per-specialty images yet.
+- Each specialty has its own header image, exported from the Figma header frames (background layers only; the text stays live HTML).
+  Dentistry has no glow ellipse in Figma, so none is drawn.
 - Figma's icons use Font Awesome 6 *Sharp/Pro*; these were exported from Figma as SVG.
   Nav, social and widget icons use Font Awesome Free 6 (CC BY 4.0).
 - Fixed in copy: "Gastroenterolgy" → "Gastroenterology", "HIPPA" → "HIPAA".

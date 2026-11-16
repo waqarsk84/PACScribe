@@ -87,11 +87,23 @@
     }
   };
 
+  /* Per-specialty header art exported from Figma (fills only) + the position of each
+     frame's blurred glow ellipse, in Figma px on the 1006px-wide header */
+  var HEADERS = {
+    derm:   { glow: [472, 226, 458] }, cardio: { glow: [513, 226, 496] },
+    urgent: { glow: [472, 226, 458] }, gyn:    { glow: [432, 226, 557] },
+    ortho:  { glow: [472, 226, 458] }, onco:   { glow: [382, 367, 458] },
+    gastro: { glow: [432, 287, 458] }, ophth:  { glow: [472, 226, 458] },
+    ent:    { glow: [416, 323, 496] }, dent:   { glow: null }
+  };
+  function headerSrc(key) { return 'assets/img/specialty-' + key + '-bg.jpg'; }
+
   /* ------------------------------------------------------------------ Tabs */
   var tablist = document.querySelector('.spec-tabs');
   var tabs = tablist ? Array.prototype.slice.call(tablist.querySelectorAll('[role="tab"]')) : [];
   var panel = document.getElementById('spec-panel');
   var panelBg = panel && panel.querySelector('.spec-panel__bg');
+  var panelGlow = panel && panel.querySelector('.spec-panel__glow');
   var field = function (name) { return panel.querySelector('[data-f="' + name + '"]'); };
   var current = 'gyn';
   var swapTimer;
@@ -125,9 +137,24 @@
     requestAnimationFrame(step);
   }
 
+  function applyHeader(key) {
+    var h = HEADERS[key];
+    if (!h) return;
+    panelBg.style.backgroundImage = 'url("' + headerSrc(key) + '")';
+    if (h.glow) {
+      panelGlow.hidden = false;
+      panelGlow.style.left = (h.glow[0] / 1006 * 100).toFixed(2) + '%';
+      panelGlow.style.width = h.glow[1] + 'px';
+      panelGlow.style.height = h.glow[2] + 'px';
+    } else {
+      panelGlow.hidden = true; // Dentistry has no glow layer in Figma
+    }
+  }
+
   function fill(key) {
     var d = SPECIALTIES[key];
     if (!d) return;
+    applyHeader(key);
     field('title').textContent = d.title;
     field('desc').textContent = d.desc;
     var stats = field('stats');
@@ -195,6 +222,11 @@
     var syncOrientation = function () { tablist.setAttribute('aria-orientation', mqVertical.matches ? 'vertical' : 'horizontal'); };
     syncOrientation();
     (mqVertical.addEventListener ? mqVertical.addEventListener('change', syncOrientation) : mqVertical.addListener(syncOrientation));
+    // warm the cache so switching tabs never flashes an empty header
+    window.addEventListener('load', function () {
+      var idle = window.requestIdleCallback || function (cb) { return setTimeout(cb, 600); };
+      idle(function () { Object.keys(HEADERS).forEach(function (k) { var img = new Image(); img.src = headerSrc(k); }); });
+    });
     // centre the default tab on load for horizontal layouts
     requestAnimationFrame(function () { keepTabVisible(tabs.filter(function (t) { return t.getAttribute('aria-selected') === 'true'; })[0]); });
   }

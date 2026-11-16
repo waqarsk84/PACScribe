@@ -229,9 +229,11 @@ ul { padding: 0; list-style: none; }
   background: url("../assets/img/specialty-gyn-bg.jpg") right center / cover no-repeat;
   transform-origin: 80% 50%;
 }
+.spec-panel__glow[hidden] { display: none; }
 .spec-panel__glow { /* Figma "Ellipse 756": #354585, layer blur 94 – softens the photo seam */
-  position: absolute; z-index: -1; left: calc(52.2% - 113px); top: -87px; width: 226px; height: 489px;
+  position: absolute; z-index: -1; left: 42.94%; top: -87px; width: 226px; height: 557px;
   border-radius: 50%; background: #354585; filter: blur(47px); pointer-events: none;
+  transition: left .5s var(--ease-out), width .5s var(--ease-out), height .5s var(--ease-out);
 }
 .spec-panel__intro { display: flex; flex-direction: column; gap: 16px; max-width: 896px; }
 .spec-panel__title { font-size: 32px; line-height: 48px; font-weight: 600; }
@@ -475,6 +477,11 @@ ul { padding: 0; list-style: none; }
   .specialty__head { gap: 14px; }
   .spec-panel__hero { padding: 24px 20px; min-height: 0; }
   .spec-panel__bg { background-position: 70% center; }
+  .spec-panel__bg::after { /* mobile: soften the photo seam behind the copy and lift text contrast */
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(90deg, rgba(27, 66, 127, .88) 0%, rgba(30, 64, 128, .62) 55%, rgba(60, 60, 140, .25) 100%);
+  }
+  .spec-panel__glow { display: none; }
   .spec-panel__title { font-size: 24px; line-height: 32px; }
   .spec-panel__desc { font-size: 15px; line-height: 24px; }
   .spec-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
