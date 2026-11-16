@@ -464,7 +464,13 @@ ul { padding: 0; list-style: none; }
   .logo img { width: 180px; height: 27px; }
   .header-actions .btn--grad { display: none; }
 
-  .hero { min-height: 0; padding: 130px 0 72px; }
+  /* Mobile: header + hero stay pinned; the rest of the page slides up over them */
+  .hero { position: sticky; top: 0; z-index: 0; min-height: 0; padding: 130px 0 96px; }
+  .specialty, .site-footer { position: relative; z-index: 1; }
+  .specialty {
+    margin-top: -28px; border-radius: 24px 24px 0 0;
+    box-shadow: 0 -14px 36px -10px rgba(16, 24, 40, .35);
+  }
   .hero__bg { background-image: url("../assets/img/hero-bg-sm.jpg"); background-position: 60% center; }
   .hero__title { font-size: 36px; line-height: 44px; }
   .hero__lead { font-size: 16px; line-height: 26px; }

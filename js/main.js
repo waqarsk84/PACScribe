@@ -267,6 +267,7 @@
   var heroBg = document.querySelector('.hero__bg');
   var heroInner = document.querySelector('.hero__inner');
   var hero = document.querySelector('.hero');
+  var stickyHero = window.matchMedia('(max-width: 767px)');
   var ticking = false;
   function onScroll() {
     var y = window.scrollY || window.pageYOffset;
@@ -275,7 +276,13 @@
     if (progress) progress.style.transform = 'scaleX(' + (max > 0 ? Math.min(1, y / max) : 0) + ')';
     if (!reduceMotion && hero) {
       var h = hero.offsetHeight;
-      if (y < h) {
+      if (stickyHero.matches) {
+        // pinned hero (mobile): no parallax; ease the copy back as content covers it
+        var q = Math.min(1, y / h);
+        heroBg.style.transform = 'scale(' + (1 + q * 0.06).toFixed(3) + ')';
+        heroInner.style.transform = 'translate3d(0,' + (-q * 24).toFixed(1) + 'px,0) scale(' + (1 - q * 0.05).toFixed(3) + ')';
+        heroInner.style.opacity = String(1 - Math.min(0.7, q * 0.9));
+      } else if (y < h) {
         heroBg.style.transform = 'translate3d(0,' + (y * 0.18).toFixed(1) + 'px,0)';
         var p = y / h;
         heroInner.style.transform = 'translate3d(0,' + (y * 0.08).toFixed(1) + 'px,0)';
@@ -285,6 +292,7 @@
     ticking = false;
   }
   window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
+  window.addEventListener('resize', onScroll);
   onScroll();
 
   /* ------------------------------------------------------------------ Newsletter (preview only – nothing is sent) */

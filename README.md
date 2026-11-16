@@ -57,7 +57,8 @@ robots.txt, .nojekyll   keep the preview out of search; serve files as-is on Pag
 
 - ARIA tabs with arrow / Home / End keys (vertical on desktop, horizontal below 1024px)
 - Panel content cross-fades, bullets stagger in, the header image settles, and stats count up
-- Scroll: reveal-on-scroll, header compacts after 24px, 3px progress bar, gentle hero parallax
+- Scroll: reveal-on-scroll, header compacts after 24px, 3px progress bar, gentle hero parallax (desktop/tablet).
+  On mobile (<768px) the header + hero stay pinned and the rest of the page slides up over them as a rounded sheet
 - Hover: tab chevron nudge and icon scale, button lift, social icon invert
 - Everything is disabled under `prefers-reduced-motion`
 - Floating **Preview** widget (bottom centre): mobile 390×844, tablet 834×1112 (with rotate),
